@@ -15,7 +15,7 @@ import org.springframework.data.repository.CrudRepository;
  * 
  * @author Oliver Gierke
  */
-public interface UserRepository extends CrudRepository<User, Long>, UserRepositoryCustom {
+public interface UserRepository extends LoadAwareRepository<User, Long>, UserRepositoryCustom {
 
     /**
      * Find the user with the given username. This method will be translated
