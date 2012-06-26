@@ -11,42 +11,38 @@ import org.springframework.data.jpa.showcase.core.AbstractShowcaseTest;
 import org.springframework.data.jpa.showcase.core.Customer;
 import org.springframework.test.context.ContextConfiguration;
 
-
 /**
  * @author Oliver Gierke
  */
 @ContextConfiguration("classpath:application-context-before.xml")
 public class CustomerServiceIntegrationTest extends AbstractShowcaseTest {
 
-    @Autowired
-    CustomerService repository;
+	@Autowired
+	CustomerService repository;
 
+	@Test
+	public void findsAllCustomers() throws Exception {
 
-    @Test
-    public void findsAllCustomers() throws Exception {
+		List<Customer> result = repository.findAll();
 
-        List<Customer> result = repository.findAll();
+		assertThat(result, is(notNullValue()));
+		assertFalse(result.isEmpty());
+	}
 
-        assertThat(result, is(notNullValue()));
-        assertFalse(result.isEmpty());
-    }
+	@Test
+	public void findsPageOfMatthews() throws Exception {
 
+		List<Customer> customers = repository.findByLastname("Matthews", 0, 2);
 
-    @Test
-    public void findsPageOfMatthews() throws Exception {
+		assertThat(customers.size(), is(2));
+	}
 
-        List<Customer> customers = repository.findByLastname("Matthews", 0, 2);
+	@Test
+	public void findsCustomerById() throws Exception {
 
-        assertThat(customers.size(), is(2));
-    }
+		Customer customer = repository.findById(2L);
 
-
-    @Test
-    public void findsCustomerById() throws Exception {
-
-        Customer customer = repository.findById(2L);
-
-        assertThat(customer.getFirstname(), is("Carter"));
-        assertThat(customer.getLastname(), is("Beauford"));
-    }
+		assertThat(customer.getFirstname(), is("Carter"));
+		assertThat(customer.getLastname(), is("Beauford"));
+	}
 }

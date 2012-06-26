@@ -19,7 +19,7 @@ import org.springframework.data.jpa.showcase.core.Customer;
  */
 public class CustomerRepositoryIntegrationTest {
 
-	CustomerRepository repository;
+	private CustomerRepository repository;
 
 	public void findsCustomersBySpecification() throws Exception {
 

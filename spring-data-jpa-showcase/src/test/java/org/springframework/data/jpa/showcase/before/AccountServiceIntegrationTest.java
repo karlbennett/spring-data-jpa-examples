@@ -12,28 +12,26 @@ import org.springframework.data.jpa.showcase.core.Account;
 import org.springframework.data.jpa.showcase.core.Customer;
 import org.springframework.test.context.ContextConfiguration;
 
-
 /**
  * @author Oliver Gierke
  */
 @ContextConfiguration("classpath:application-context-before.xml")
 public class AccountServiceIntegrationTest extends AbstractShowcaseTest {
 
-    @Autowired
-    AccountService accountService;
+	@Autowired
+	AccountService accountService;
 
-    @Autowired
-    CustomerService customerService;
+	@Autowired
+	CustomerService customerService;
 
+	@Test
+	public void testname() throws Exception {
 
-    @Test
-    public void testname() throws Exception {
+		Customer customer = customerService.findById(1L);
 
-        Customer customer = customerService.findById(1L);
+		List<Account> accounts = accountService.findByCustomer(customer);
 
-        List<Account> accounts = accountService.findByCustomer(customer);
-
-        assertFalse(accounts.isEmpty());
-        assertThat(accounts.get(0).getCustomer(), is(customer));
-    }
+		assertFalse(accounts.isEmpty());
+		assertThat(accounts.get(0).getCustomer(), is(customer));
+	}
 }

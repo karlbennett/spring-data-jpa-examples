@@ -12,7 +12,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-
 /**
  * @author Oliver Gierke
  */
@@ -21,25 +20,24 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AuditableUserSample {
 
-    @Autowired
-    private CrudRepository<AuditableUser, Long> repository;
+	@Autowired
+	private CrudRepository<AuditableUser, Long> repository;
 
-    @Autowired
-    private AuditorAwareImpl auditorAware;
+	@Autowired
+	private AuditorAwareImpl auditorAware;
 
+	@Test
+	public void testname() throws Exception {
 
-    @Test
-    public void testname() throws Exception {
+		AuditableUser user = new AuditableUser();
+		user.setUsername("username");
 
-        AuditableUser user = new AuditableUser();
-        user.setUsername("username");
+		auditorAware.setAuditor(user);
 
-        auditorAware.setAuditor(user);
+		user = repository.save(user);
+		user = repository.save(user);
 
-        user = repository.save(user);
-        user = repository.save(user);
-
-        assertEquals(user, user.getCreatedBy());
-        assertEquals(user, user.getLastModifiedBy());
-    }
+		assertEquals(user, user.getCreatedBy());
+		assertEquals(user, user.getLastModifiedBy());
+	}
 }
