@@ -40,6 +40,6 @@ public interface UserRepository extends LoadAwareRepository<User, Long>, UserRep
 	 * @param firstname
 	 * @return
 	 */
-	@Query("select u from User u where u.firstname = ?")
+	@Query("select u from User u where u.firstname = ?1")
 	List<User> findByFirstname(String firstname);
 }
