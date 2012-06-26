@@ -22,7 +22,6 @@ class AccountRepositoryJdbcImpl implements AccountRepositoryCustom {
 	 */
 	@Override
 	public void removedExpiredAccounts(LocalDate reference) {
-
 		template.update("DELETE Account AS a WHERE a.expiryDate < ?", reference.toDateMidnight().toDate());
 	}
 }

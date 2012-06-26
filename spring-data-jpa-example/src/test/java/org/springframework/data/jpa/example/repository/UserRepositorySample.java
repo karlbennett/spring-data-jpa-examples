@@ -12,7 +12,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-
 /**
  * Intergration test showing the basic usage of {@link UserRepository}.
  * 
@@ -23,58 +22,55 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserRepositorySample {
 
-    @Autowired
-    UserRepository repository;
+	@Autowired
+	UserRepository repository;
 
+	/**
+	 * Tests inserting a user and asserts it can be loaded again.
+	 */
+	@Test
+	public void testInsert() {
 
-    /**
-     * Tests inserting a user and asserts it can be loaded again.
-     */
-    @Test
-    public void testInsert() {
+		User user = new User();
+		user.setUsername("username");
 
-        User user = new User();
-        user.setUsername("username");
+		user = repository.save(user);
 
-        user = repository.save(user);
+		assertEquals(user, repository.findOne(user.getId()));
+	}
 
-        assertEquals(user, repository.findOne(user.getId()));
-    }
+	@Test
+	public void foo() {
 
+		User user = new User();
+		user.setUsername("foobar");
+		user.setLastname("lastname");
 
-    @Test
-    public void foo() {
+		user = repository.save(user);
 
-        User user = new User();
-        user.setUsername("foobar");
-        user.setLastname("lastname");
+		List<User> users = repository.findByLastname("lastname");
 
-        user = repository.save(user);
+		assertNotNull(users);
+		assertTrue(users.contains(user));
 
-        List<User> users = repository.findByLastname("lastname");
+		User reference = repository.findByTheUsersName("foobar");
+		assertEquals(user, reference);
+	}
 
-        assertNotNull(users);
-        assertTrue(users.contains(user));
+	/**
+	 * Test invocation of custom method.
+	 */
+	@Test
+	public void testCustomMethod() {
 
-        User reference = repository.findByTheUsersName("foobar");
-        assertEquals(user, reference);
-    }
+		User user = new User();
+		user.setUsername("username");
 
+		user = repository.save(user);
 
-    /**
-     * Test invocation of custom method.
-     */
-    @Test
-    public void testCustomMethod() {
+		List<User> users = repository.myCustomBatchOperation();
 
-        User user = new User();
-        user.setUsername("username");
-
-        user = repository.save(user);
-
-        List<User> users = repository.myCustomBatchOperation();
-
-        assertNotNull(users);
-        assertTrue(users.contains(user));
-    }
+		assertNotNull(users);
+		assertTrue(users.contains(user));
+	}
 }

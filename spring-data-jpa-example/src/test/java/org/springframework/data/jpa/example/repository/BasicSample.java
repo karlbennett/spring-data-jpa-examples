@@ -13,7 +13,6 @@ import org.springframework.data.jpa.example.domain.User;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.CrudRepository;
 
-
 /**
  * This unit tests shows plain usage of {@link SimpleJpaRepository}.
  * 
@@ -21,46 +20,40 @@ import org.springframework.data.repository.CrudRepository;
  */
 public class BasicSample {
 
-    private CrudRepository<User, Long> userRepository;
-    private EntityManager em;
+	private CrudRepository<User, Long> userRepository;
+	private EntityManager em;
 
+	/**
+	 * Sets up a {@link SimpleJpaRepository} instance.
+	 */
+	@Before
+	public void setUp() {
 
-    /**
-     * Sets up a {@link SimpleJpaRepository} instance.
-     */
-    @Before
-    public void setUp() {
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("jpa.sample.plain");
+		em = factory.createEntityManager();
 
-        EntityManagerFactory factory =
-            Persistence.createEntityManagerFactory("jpa.sample.plain");
-        em = factory.createEntityManager();
+		userRepository = new SimpleJpaRepository<User, Long>(User.class, em);
 
-        userRepository = new SimpleJpaRepository<User, Long>(User.class, em);
+		em.getTransaction().begin();
+	}
 
-        em.getTransaction().begin();
-    }
+	@After
+	public void tearDown() {
+		em.getTransaction().rollback();
+	}
 
+	/**
+	 * Tests saving users. Don't mimic transactionality shown here. It seriously lacks resource cleanup in case of an
+	 * exception. Simplification serves descriptivness.
+	 */
+	@Test
+	public void savingUsers() {
 
-    @After
-    public void tearDown() {
+		User user = new User();
+		user.setUsername("username");
 
-        em.getTransaction().rollback();
-    }
+		user = userRepository.save(user);
 
-
-    /**
-     * Tests saving users. Don't mimic transactionality shown here. It seriously
-     * lacks resource cleanup in case of an exception. Simplification serves
-     * descriptivness.
-     */
-    @Test
-    public void savingUsers() {
-
-        User user = new User();
-        user.setUsername("username");
-
-        user = userRepository.save(user);
-
-        assertEquals(user, userRepository.findOne(user.getId()));
-    }
+		assertEquals(user, userRepository.findOne(user.getId()));
+	}
 }

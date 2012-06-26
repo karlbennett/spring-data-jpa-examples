@@ -14,7 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-
 /**
  * Intergration test showing the basic usage of {@link SimpleUserRepository}.
  * 
@@ -25,52 +24,48 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class SimpleUserRepositorySample {
 
-    @Autowired
-    SimpleUserRepository repository;
-    User user;
+	@Autowired
+	SimpleUserRepository repository;
+	User user;
 
+	@Before
+	public void setUp() {
 
-    @Before
-    public void setUp() {
+		user = new User();
+		user.setUsername("foobar");
+		user.setFirstname("firstname");
+		user.setLastname("lastname");
+	}
 
-        user = new User();
-        user.setUsername("foobar");
-        user.setFirstname("firstname");
-        user.setLastname("lastname");
-    }
+	/**
+	 * Tests inserting a user and asserts it can be loaded again.
+	 */
+	@Test
+	public void testInsert() {
 
+		user = repository.save(user);
 
-    /**
-     * Tests inserting a user and asserts it can be loaded again.
-     */
-    @Test
-    public void testInsert() {
+		assertEquals(user, repository.findOne(user.getId()));
+	}
 
-        user = repository.save(user);
+	@Test
+	public void foo() throws Exception {
 
-        assertEquals(user, repository.findOne(user.getId()));
-    }
+		user = repository.save(user);
 
+		List<User> users = repository.findByLastname("lastname");
 
-    @Test
-    public void foo() throws Exception {
+		assertNotNull(users);
+		assertTrue(users.contains(user));
+	}
 
-        user = repository.save(user);
+	@Test
+	public void testname() throws Exception {
 
-        List<User> users = repository.findByLastname("lastname");
+		user = repository.save(user);
 
-        assertNotNull(users);
-        assertTrue(users.contains(user));
-    }
+		List<User> users = repository.findByFirstnameOrLastname("lastname");
 
-
-    @Test
-    public void testname() throws Exception {
-
-        user = repository.save(user);
-
-        List<User> users = repository.findByFirstnameOrLastname("lastname");
-
-        assertTrue(users.contains(user));
-    }
+		assertTrue(users.contains(user));
+	}
 }

@@ -13,7 +13,6 @@ import org.springframework.data.jpa.example.domain.User;
 import org.springframework.data.jpa.example.repository.simple.SimpleUserRepository;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 
-
 /**
  * Test case showing how to use the basic {@link GenericDaoFactory}
  * 
@@ -21,57 +20,53 @@ import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
  */
 public class BasicFactorySetup {
 
-    private static final EntityManagerFactory factory =
-        Persistence.createEntityManagerFactory("jpa.sample.plain");
+	private static final EntityManagerFactory factory = Persistence.createEntityManagerFactory("jpa.sample.plain");
 
-    private SimpleUserRepository userRepository;
-    private EntityManager em;
+	private SimpleUserRepository userRepository;
+	private EntityManager em;
 
-    private User user;
+	private User user;
 
+	/**
+	 * Creates a {@link SimpleUserRepository} instance.
+	 * 
+	 * @throws Exception
+	 */
+	@Before
+	public void setUp() {
 
-    /**
-     * Creates a {@link SimpleUserRepository} instance.
-     * 
-     * @throws Exception
-     */
-    @Before
-    public void setUp() {
+		em = factory.createEntityManager();
 
-        em = factory.createEntityManager();
+		userRepository = new JpaRepositoryFactory(em).getRepository(SimpleUserRepository.class);
 
-        userRepository = new JpaRepositoryFactory(em).getRepository(SimpleUserRepository.class);
+		em.getTransaction().begin();
 
-        em.getTransaction().begin();
+		user = new User();
+		user.setUsername("username");
+		user.setFirstname("firstname");
+		user.setLastname("lastname");
 
-        user = new User();
-        user.setUsername("username");
-        user.setFirstname("firstname");
-        user.setLastname("lastname");
+		user = userRepository.save(user);
 
-        user = userRepository.save(user);
+	}
 
-    }
+	/**
+	 * Rollback transaction.
+	 */
+	@After
+	public void tearDown() {
 
+		em.getTransaction().rollback();
+	}
 
-    /**
-     * Rollback transaction.
-     */
-    @After
-    public void tearDown() {
+	/**
+	 * Showing invocation of finder method.
+	 */
+	@Test
+	public void executingFinders() {
 
-        em.getTransaction().rollback();
-    }
-
-
-    /**
-     * Showing invocation of finder method.
-     */
-    @Test
-    public void executingFinders() {
-
-        assertEquals(user, userRepository.findByTheUsersName("username"));
-        assertEquals(user, userRepository.findByLastname("lastname").get(0));
-        assertEquals(user, userRepository.findByFirstname("firstname").get(0));
-    }
+		assertEquals(user, userRepository.findByTheUsersName("username"));
+		assertEquals(user, userRepository.findByLastname("lastname").get(0));
+		assertEquals(user, userRepository.findByFirstname("firstname").get(0));
+	}
 }

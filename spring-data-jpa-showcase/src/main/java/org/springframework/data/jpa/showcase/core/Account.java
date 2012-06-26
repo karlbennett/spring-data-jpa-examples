@@ -10,38 +10,31 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 /**
  * @author Oliver Gierke
  */
 @Entity
 public class Account {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
-    @ManyToOne
-    private Customer customer;
+	@ManyToOne
+	private Customer customer;
 
-    @Temporal(TemporalType.DATE)
-    private Date expiryDate;
+	@Temporal(TemporalType.DATE)
+	private Date expiryDate;
 
+	public Long getId() {
+		return id;
+	}
 
-    public Long getId() {
+	public Customer getCustomer() {
+		return customer;
+	}
 
-        return id;
-    }
-
-
-    public Customer getCustomer() {
-
-        return customer;
-    }
-
-
-    public Date getExpiryDate() {
-
-        return expiryDate;
-    }
+	public Date getExpiryDate() {
+		return expiryDate;
+	}
 }
