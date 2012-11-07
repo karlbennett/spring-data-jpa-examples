@@ -25,6 +25,13 @@ public class AccountServiceIntegrationTest extends AbstractShowcaseTest {
 	CustomerService customerService;
 
 	@Test
+	public void savesAccount() {
+
+		Account account = accountService.save(new Account());
+		assertThat(account.getId(), is(notNullValue()));
+	}
+
+	@Test
 	public void testname() throws Exception {
 
 		Customer customer = customerService.findById(1L);

@@ -1,6 +1,6 @@
 package org.springframework.data.jpa.showcase.after;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import java.util.List;
@@ -23,6 +23,13 @@ public class AccountRepositoryIntegrationTest extends AbstractShowcaseTest {
 
 	@Autowired
 	CustomerRepository customerRepository;
+
+	@Test
+	public void savesAccount() {
+
+		Account account = accountRepository.save(new Account());
+		assertThat(account.getId(), is(notNullValue()));
+	}
 
 	@Test
 	public void findsCustomersAccounts() {
