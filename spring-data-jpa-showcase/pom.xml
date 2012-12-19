@@ -11,7 +11,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<name>Spring Data JPA showcase</name>
+	<name>Spring Data JPA - Refactoring showcase</name>
 	<description>Sample project showing how Spring Data JPA eases implementing repositories over a plain JPA/Spring approach</description>
 
 	<properties>
