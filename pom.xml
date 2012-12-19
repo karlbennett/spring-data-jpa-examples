@@ -15,6 +15,7 @@
 	<modules>
 		<module>spring-data-jpa-example</module>
 		<module>spring-data-jpa-showcase</module>
+		<module>spring-data-jpa-interceptors</module>
 	</modules>
 
 	<developers>
