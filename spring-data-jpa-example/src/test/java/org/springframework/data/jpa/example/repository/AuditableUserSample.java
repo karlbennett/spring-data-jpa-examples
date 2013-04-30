@@ -1,15 +1,18 @@
 package org.springframework.data.jpa.example.repository;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.jpa.example.auditing.AuditableUser;
 import org.springframework.data.jpa.example.auditing.AuditorAwareImpl;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -26,8 +29,13 @@ public class AuditableUserSample {
 	@Autowired
 	private AuditorAwareImpl auditorAware;
 
+	@Autowired
+	private AuditingEntityListener<?> listener;
+
 	@Test
 	public void testname() throws Exception {
+
+		assertThat(ReflectionTestUtils.getField(listener, "handler"), is(notNullValue()));
 
 		AuditableUser user = new AuditableUser();
 		user.setUsername("username");
