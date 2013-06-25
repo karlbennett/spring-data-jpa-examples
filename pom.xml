@@ -22,20 +22,21 @@
 		<developer>
 			<id>gierke</id>
 			<name>Oliver Gierke</name>
-			<email>ogierke@vmware.com</email>
+			<email>ogierke@gopivotal.com</email>
 			<url>http://www.olivergierke.de</url>
 		</developer>
 	</developers>
 
 	<properties>
-		<spring.version>3.2.2.RELEASE</spring.version>
+		<spring.version>3.2.3.RELEASE</spring.version>
 		<jpa.version>2.0.0</jpa.version>
 		<junit.version>4.11</junit.version>
-		<hibernate.version>4.1.9.Final</hibernate.version>
-		<slf4j.version>1.7.1</slf4j.version>
+		<hibernate.version>4.2.2.Final</hibernate.version>
+		<slf4j.version>1.7.5</slf4j.version>
 		<aspectj.version>1.6.12</aspectj.version>
-		<jodatime.version>2.1</jodatime.version>
+		<jodatime.version>2.2</jodatime.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring.data.jpa.version>1.4.0.M1</spring.data.jpa.version>
 	</properties>
 
 	<build>
@@ -86,7 +87,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.5.1</version>
+				<version>3.1</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
@@ -141,7 +142,7 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
-			<version>1.3.1.RELEASE</version>
+			<version>${spring.data.jpa.version}</version>
 		</dependency>
 
 		<dependency>
@@ -154,7 +155,7 @@
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.16</version>
+			<version>1.2.17</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -166,7 +167,7 @@
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-all</artifactId>
-			<version>1.1</version>
+			<version>1.3</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -213,9 +214,9 @@
 
 	<repositories>
 		<repository>
-			<id>repository.springframework.maven.release</id>
+			<id>spring-libs-milestone</id>
 			<name>Spring Framework Maven Release Repository</name>
-			<url>http://repo.springsource.org/libs-release</url>
+			<url>http://repo.springsource.org/libs-milestone</url>
 		</repository>
 	</repositories>
 	
