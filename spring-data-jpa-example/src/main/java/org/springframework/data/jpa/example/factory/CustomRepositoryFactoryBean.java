@@ -40,7 +40,7 @@ public class CustomRepositoryFactoryBean<R extends JpaRepository<T, ID>, T, ID e
         @Override
         protected Object getTargetRepository(RepositoryMetadata metadata) {
 
-            return new LoadAwareRepositoryImp<T, ID>((Class<T>) metadata.getDomainClass(), entityManager);
+            return new LoadAwareRepositoryImp<T, ID>((Class<T>) metadata.getDomainType(), entityManager);
         }
 
         @Override
